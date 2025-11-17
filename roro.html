@@ -1,0 +1,218 @@
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday</title><style>
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: "Cairo", sans-serif;
+  text-align: center;
+  background: linear-gradient(to bottom, #ffd6e9, #ffecf5);
+  overflow-x: hidden;
+  overflow-y: hidden;
+  height: 100vh;
+}
+
+.container {
+  max-width: 90%;
+  margin: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.date-header {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ff1c6e;
+  margin-bottom: 5px;
+}
+
+.date-header span {
+  display: block;
+  font-size: 18px;
+  margin-top: 3px;
+  color: #ff4c8a;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 25px;
+  margin-top: 20px;
+  box-shadow: 0 0 15px #ffb6d6;
+  min-height: 150px;
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.word {
+  opacity: 0;
+  display: inline-block;
+  margin-left: 7px;
+  position: relative;
+  transform: translateY(15px) scale(0.9);
+  transition: all 0.6s ease, color 0.4s ease;
+}
+
+.word.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  font-weight: bold;
+  text-shadow: 0 0 10px #ff9cd3;
+  animation: colorPulse 2s infinite alternate;
+}
+
+@keyframes colorPulse {
+  0% { color: #ff1c6e; }
+  50% { color: #ff4c8a; }
+  100% { color: #ff6fa8; }
+}
+
+.word::after {
+  content: "♡";
+  position: absolute;
+  left: 50%;
+  top: -15px;
+  transform: translateX(-50%) scale(0);
+  opacity: 0;
+  color: #ff6fa8;
+  font-weight: bold;
+  animation: heartbeat 1s ease forwards;
+}
+
+.word.show::after {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  animation: heartbeat 1s ease forwards;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+  25% { transform: translateX(-50%) scale(1.4); opacity: 1; }
+  50% { transform: translateX(-50%) scale(1); opacity: 1; }
+  75% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+}
+
+.word[dir="ltr"] {
+  direction: ltr;
+  unicode-bidi: bidi-override;
+  display: block;
+  margin-left: 0;
+  margin-top: 5px;
+}
+
+#startButton {
+  background-color: #ff4c4c;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 18px;
+  border-radius: 15px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+#startButton:hover { background-color: #ff1c1c; }
+#startButton:active { transform: scale(0.95); }
+
+.heart {
+  position: fixed;
+  top: -50px;
+  font-size: 20px;
+  color: #ff6fa8;
+  animation: fall linear infinite;
+  z-index: 1;
+}
+
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+</style></head>
+<body><div class="container">
+  <div class="date-header">
+    🎀 اليوم يومك ي رورتي ي مزة 🎀
+    <span>🎀 17-11-2025 🎀</span>
+  </div>  <p>قلبي كله إلك. عقبال سنين طويلة وإنتِ ضحكتك عامرة حياتي يا روري.</p>  <div class="card" id="card"></div><button id="startButton">اضغطي هنا ي روري 🎀</button>
+
+</div><!-- تشغيل الصوت تلقائيًا --><audio id="song" src="Non.mp3" autoplay loop></audio>
+
+<script>
+function createFallingHeart() {
+  const heart = document.createElement('div');
+  heart.className = 'heart';
+  heart.style.left = Math.random() * window.innerWidth + 'px';
+  heart.style.fontSize = 15 + Math.random() * 25 + 'px';
+  heart.style.animationDuration = 3 + Math.random() * 3 + 's';
+  heart.style.color = `hsl(${Math.random() * 50 + 330}, 100%, 70%)`;
+  document.body.appendChild(heart);
+
+  setTimeout(() => { heart.remove(); }, 6000);
+}
+
+function startHearts() {
+  return setInterval(createFallingHeart, 300);
+}
+
+function showMessages() {
+  const messages = [
+    "رورتي قلبي 💖",
+    "كل عام وانتي بخير يا روري",
+    "سنة حلوة تشبهك يا أحلى البنات",
+    "يا روري وجودك بالدنيا يكفي عن ألف نعمة",
+    "يا رب أشوفك بخير وسعادة دايمًا",
+    "عقبال أشوفك بين إيدي يا رورتي الغالية",
+    "يزونك بحبك كتير يا روحي",
+    "Rore",
+    "love you"
+  ];
+
+  const card = document.getElementById('card');
+  card.innerHTML = `<div class="text-block"></div>`;
+  const container = card.querySelector('.text-block');
+
+  let delay = 0;
+
+  messages.forEach((msg) => {
+    const p = document.createElement('p');
+    container.appendChild(p);
+
+    if (msg === "Rore" || msg === "love you") {
+      const span = document.createElement('span');
+      span.className = "word";
+      span.textContent = msg;
+      span.setAttribute("dir", "ltr");
+      p.appendChild(span);
+
+      setTimeout(() => { span.classList.add("show"); }, delay);
+      delay += 600;
+    } else {
+      msg.split(" ").forEach((word) => {
+        const span = document.createElement('span');
+        span.className = "word";
+        span.textContent = word;
+        if (p.childElementCount > 0) span.style.marginLeft = "7px";
+        p.appendChild(span);
+
+        setTimeout(() => { span.classList.add("show"); }, delay);
+        delay += 250;
+      });
+      delay += 350;
+    }
+  });
+}
+
+// تشغيل القلوب والرسائل عند الضغط
+
+document.getElementById('startButton').addEventListener('click', () => {
+  showMessages();
+  startHearts();
+  document.getElementById('startButton').disabled = true;
+});
+</script></body>
+</html>
